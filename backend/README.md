@@ -39,3 +39,15 @@ python manage.py runserver
 - файлы переименовываются в UUID
 - включён throttling для регистрации, логина и загрузок
 - текстовые поля очищаются от HTML тегов и лишних пробелов
+
+
+## Cloudinary
+
+Для продакшн-загрузки изображений проект поддерживает Cloudinary.
+Добавь в Render переменные окружения:
+
+- `CLOUDINARY_CLOUD_NAME`
+- `CLOUDINARY_API_KEY`
+- `CLOUDINARY_API_SECRET`
+
+После этого новые обложки книг и аватары будут храниться в Cloudinary и отдаваться по публичным URL.
