@@ -6,13 +6,14 @@ from common.upload_security import clean_plain_text, validate_image_upload
 
 class BookSerializer(serializers.ModelSerializer):
     owner = UserPublicSerializer(read_only=True)
-    cover = serializers.SerializerMethodField()
+    cover = serializers.SerializerMethodField(read_only=True)
+    cover_file = serializers.ImageField(write_only=True, required=False, source='cover')
 
     class Meta:
         model = Book
         fields = (
             'id', 'owner', 'title', 'author', 'genre', 'description', 'condition',
-            'city', 'latitude', 'longitude', 'cover', 'status', 'created_at', 'updated_at'
+            'city', 'latitude', 'longitude', 'cover', 'cover_file', 'status', 'created_at', 'updated_at'
         )
         read_only_fields = ('id', 'owner', 'created_at', 'updated_at')
 
@@ -49,7 +50,7 @@ class BookSerializer(serializers.ModelSerializer):
     def validate_city(self, value):
         return clean_plain_text(value, field_name='city', max_length=120)
 
-    def validate_cover(self, value):
+    def validate_cover_file(self, value):
         if value:
             validate_image_upload(value)
         return value

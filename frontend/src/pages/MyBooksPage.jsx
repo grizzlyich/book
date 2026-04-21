@@ -71,7 +71,7 @@ export default function MyBooksPage() {
     event.preventDefault();
     const payload = new FormData();
     Object.entries(form).forEach(([key, value]) => payload.append(key, value));
-    if (cover) payload.append("cover", cover);
+    if (cover) payload.append("cover_file", cover);
 
     try {
       setIsSubmitting(true);

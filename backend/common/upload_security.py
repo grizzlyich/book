@@ -39,7 +39,6 @@ def validate_image_upload(file_obj, max_size: int = MAX_IMAGE_SIZE):
     if content_type and content_type not in ALLOWED_IMAGE_MIME_TYPES:
         raise ValidationError('Недопустимый MIME type файла.')
 
-    current_pos = file_obj.tell() if hasattr(file_obj, 'tell') else None
     try:
         if hasattr(file_obj, 'seek'):
             file_obj.seek(0)
@@ -50,7 +49,7 @@ def validate_image_upload(file_obj, max_size: int = MAX_IMAGE_SIZE):
         raise ValidationError('Файл не является валидным изображением.')
     finally:
         if hasattr(file_obj, 'seek'):
-            file_obj.seek(0 if current_pos is None else current_pos)
+            file_obj.seek(0)
 
     expected_format = IMAGE_EXTENSION_MAP.get(ext)
     if expected_format and detected_format != expected_format:
