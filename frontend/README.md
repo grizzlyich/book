@@ -1,14 +1,15 @@
-# BookSwap Frontend
-
-React + Vite веб-клиент для BookSwap.
+# Frontend (Vercel)
 
 ## Локальный запуск
-
 ```bash
 npm install
-copy .env.example .env
+cp .env.example .env
 npm run dev
 ```
 
-## Production
-Укажи `VITE_API_BASE_URL=https://your-backend-domain/api` и задеплой на Vercel.
+## Обязательные переменные окружения
+- `VITE_API_BASE_URL=https://<твой-backend>.onrender.com/api`
+- `VITE_YANDEX_MAPS_API_KEY=<ключ Яндекс Карт>`
+
+## Карта
+Проект использует **Yandex Maps JS API v3**. Для работы карты нужен ключ c ограничением по HTTP Referer для твоего домена Vercel.
