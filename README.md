@@ -1,20 +1,22 @@
-# BookCross — deploy-ready monorepo
+# BookCross / BookSwap — Render + Vercel
 
-Этот проект переделан из старого рабочего архива в чистый формат для GitHub и деплоя:
+Готовая версия проекта для развёртывания в связке:
+- **Backend**: Django REST на **Render**
+- **Frontend**: React + Vite на **Vercel**
+- **Database**: PostgreSQL (строка подключения через `DATABASE_URL`)
 
-- `frontend/` — React + Vite, готов для **Vercel**
-- `backend/` — Django REST API, готов для **Render**
-
-## Почему не "всё только на Vercel"
-Текущий backend — полноценный Django API с JWT, загрузкой файлов и БД. Технически Vercel поддерживает Python runtime, но для такого проекта проще и надёжнее держать frontend на Vercel, а backend на Render.
+## Структура
+- `backend/` — API, JWT, книги, обмены, отзывы
+- `frontend/` — web-клиент
+- `DEPLOY.md` — короткая инструкция по Render + Vercel
 
 ## Локальный запуск
 
 ### Backend
 ```bash
 cd backend
-python3 -m venv .venv
-source .venv/bin/activate  # Windows: .venv\Scripts\activate
+python -m venv .venv
+source .venv/bin/activate  # Windows: .venv\Scriptsctivate
 pip install -r requirements.txt
 cp .env.example .env       # Windows: copy .env.example .env
 python manage.py migrate
@@ -29,5 +31,14 @@ cp .env.example .env       # Windows: copy .env.example .env
 npm run dev
 ```
 
-## Деплой
-Подробная инструкция — в `DEPLOY.md`.
+## Что уже настроено
+- `render.yaml`
+- `build.sh`
+- `vercel.json`
+- `gunicorn`
+- `whitenoise`
+- `dj-database-url`
+- `django-cors-headers`
+
+## Важно
+База данных настраивается **на Render backend**, а не на Vercel frontend.

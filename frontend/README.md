@@ -1,12 +1,14 @@
-# Frontend
+# BookSwap Frontend
 
-React + Vite frontend для BookCross.
+React + Vite веб-клиент для BookSwap.
 
-## Env
-```env
-VITE_API_BASE_URL=https://book-4awi.onrender.com/api
+## Локальный запуск
+
+```bash
+npm install
+copy .env.example .env
+npm run dev
 ```
 
-## Карта
-Используется **Leaflet + OpenStreetMap**.
-Дополнительные API-ключи не нужны.
+## Production
+Укажи `VITE_API_BASE_URL=https://your-backend-domain/api` и задеплой на Vercel.
