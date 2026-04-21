@@ -1,8 +1,8 @@
 from rest_framework import generics, permissions
-from rest_framework.exceptions import ValidationError
 from .models import Book
 from .serializers import BookSerializer, BookMapSerializer
 from .permissions import IsOwnerOrReadOnly
+from common.throttles import UploadThrottle
 
 
 class BookListCreateView(generics.ListCreateAPIView):
@@ -20,11 +20,21 @@ class BookListCreateView(generics.ListCreateAPIView):
             return [permissions.IsAuthenticated()]
         return [permissions.AllowAny()]
 
+    def get_throttles(self):
+        if self.request.method == 'POST':
+            return [UploadThrottle()]
+        return super().get_throttles()
+
 
 class BookDetailView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Book.objects.select_related('owner').all()
     serializer_class = BookSerializer
     permission_classes = [IsOwnerOrReadOnly]
+
+    def get_throttles(self):
+        if self.request.method in ['PUT', 'PATCH']:
+            return [UploadThrottle()]
+        return super().get_throttles()
 
 
 class MyBooksView(generics.ListAPIView):

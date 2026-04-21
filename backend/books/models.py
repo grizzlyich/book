@@ -1,5 +1,10 @@
 from django.conf import settings
 from django.db import models
+from common.upload_security import secure_media_upload_path
+
+
+def book_cover_upload_to(instance, filename):
+    return secure_media_upload_path('books/covers', filename)
 
 
 class Book(models.Model):
@@ -22,7 +27,7 @@ class Book(models.Model):
     city = models.CharField(max_length=120, blank=True)
     latitude = models.DecimalField(max_digits=9, decimal_places=6, null=True, blank=True)
     longitude = models.DecimalField(max_digits=9, decimal_places=6, null=True, blank=True)
-    cover = models.ImageField(upload_to='books/covers/', blank=True, null=True)
+    cover = models.ImageField(upload_to=book_cover_upload_to, blank=True, null=True)
     status = models.CharField(max_length=20, choices=STATUS_CHOICES, default=STATUS_AVAILABLE)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
