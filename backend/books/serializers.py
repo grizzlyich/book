@@ -6,6 +6,7 @@ from common.upload_security import clean_plain_text, validate_image_upload
 
 class BookSerializer(serializers.ModelSerializer):
     owner = UserPublicSerializer(read_only=True)
+    cover = serializers.SerializerMethodField()
 
     class Meta:
         model = Book
@@ -14,6 +15,21 @@ class BookSerializer(serializers.ModelSerializer):
             'city', 'latitude', 'longitude', 'cover', 'status', 'created_at', 'updated_at'
         )
         read_only_fields = ('id', 'owner', 'created_at', 'updated_at')
+
+
+    def get_cover(self, obj):
+        if not obj.cover:
+            return None
+        request = self.context.get('request')
+        try:
+            url = obj.cover.url
+        except Exception:
+            return None
+        if url.startswith('http://') or url.startswith('https://'):
+            return url
+        if request:
+            return request.build_absolute_uri(url)
+        return url
 
     def validate_title(self, value):
         return clean_plain_text(value, field_name='title', max_length=255, allow_blank=False)

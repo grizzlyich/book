@@ -4,9 +4,25 @@ from common.upload_security import clean_plain_text, validate_image_upload
 
 
 class UserPublicSerializer(serializers.ModelSerializer):
+    avatar = serializers.SerializerMethodField()
+
     class Meta:
         model = User
         fields = ('id', 'username', 'first_name', 'last_name', 'city', 'latitude', 'longitude', 'avatar', 'bio')
+
+    def get_avatar(self, obj):
+        if not obj.avatar:
+            return None
+        request = self.context.get('request')
+        try:
+            url = obj.avatar.url
+        except Exception:
+            return None
+        if url.startswith('http://') or url.startswith('https://'):
+            return url
+        if request:
+            return request.build_absolute_uri(url)
+        return url
 
 
 class RegisterSerializer(serializers.ModelSerializer):
@@ -21,6 +37,21 @@ class RegisterSerializer(serializers.ModelSerializer):
 
     def validate_username(self, value):
         return clean_plain_text(value, field_name='username', max_length=150, allow_blank=False)
+
+
+    def get_avatar(self, obj):
+        if not obj.avatar:
+            return None
+        request = self.context.get('request')
+        try:
+            url = obj.avatar.url
+        except Exception:
+            return None
+        if url.startswith('http://') or url.startswith('https://'):
+            return url
+        if request:
+            return request.build_absolute_uri(url)
+        return url
 
     def validate_first_name(self, value):
         return clean_plain_text(value, field_name='first_name', max_length=150)
@@ -51,13 +82,31 @@ class RegisterSerializer(serializers.ModelSerializer):
 
 
 class ProfileSerializer(serializers.ModelSerializer):
+    avatar = serializers.SerializerMethodField(read_only=True)
+    avatar_file = serializers.ImageField(write_only=True, required=False, source='avatar')
+
     class Meta:
         model = User
         fields = (
             'id', 'username', 'email', 'first_name', 'last_name',
-            'city', 'address', 'latitude', 'longitude', 'avatar', 'bio'
+            'city', 'address', 'latitude', 'longitude', 'avatar', 'avatar_file', 'bio'
         )
         read_only_fields = ('id', 'username', 'email')
+
+
+    def get_avatar(self, obj):
+        if not obj.avatar:
+            return None
+        request = self.context.get('request')
+        try:
+            url = obj.avatar.url
+        except Exception:
+            return None
+        if url.startswith('http://') or url.startswith('https://'):
+            return url
+        if request:
+            return request.build_absolute_uri(url)
+        return url
 
     def validate_first_name(self, value):
         return clean_plain_text(value, field_name='first_name', max_length=150)
