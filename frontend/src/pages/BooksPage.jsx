@@ -27,7 +27,7 @@ export default function BooksPage() {
       <div className="card">
         <h2>Каталог книг</h2>
         <div className="form-grid">
-          <input className="input" placeholder="Поиск" value={params.search} onChange={(e) => setParams({ ...params, search: e.target.value })} />
+          <input className="input" placeholder="Поиск по названию или автору" value={params.search} onChange={(e) => setParams({ ...params, search: e.target.value })} />
           <input className="input" placeholder="Город" value={params.city} onChange={(e) => setParams({ ...params, city: e.target.value })} />
           <input className="input" placeholder="Жанр" value={params.genre} onChange={(e) => setParams({ ...params, genre: e.target.value })} />
           <button className="btn" onClick={load}>Применить фильтры</button>

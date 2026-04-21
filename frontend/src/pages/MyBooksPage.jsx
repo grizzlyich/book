@@ -2,7 +2,27 @@ import { useEffect, useState } from "react";
 import { api } from "../api";
 import BookCard from "../components/BookCard";
 
-const initial = { title: "", author: "", genre: "", description: "", condition: "", city: "", latitude: "", longitude: "" };
+const initial = {
+  title: "",
+  author: "",
+  genre: "",
+  description: "",
+  condition: "",
+  city: "",
+  latitude: "",
+  longitude: ""
+};
+
+const placeholders = {
+  title: "Название книги",
+  author: "Автор",
+  genre: "Жанр",
+  description: "Описание",
+  condition: "Состояние книги",
+  city: "Город",
+  latitude: "Широта",
+  longitude: "Долгота",
+};
 
 export default function MyBooksPage() {
   const [items, setItems] = useState([]);
@@ -34,17 +54,21 @@ export default function MyBooksPage() {
   }
 
   return (
-    <div className="grid" style={{ gridTemplateColumns: "1.05fr 1fr", alignItems: "start" }}>
+    <div className="grid two-columns" style={{ alignItems: "start" }}>
       <div className="card stack">
         <h2>Добавить книгу</h2>
         <form className="form-grid" onSubmit={submit}>
           {Object.keys(initial).map((field) => (
             field === "description"
-              ? <textarea key={field} className="textarea" placeholder={field} value={form[field]} onChange={(e) => setForm({ ...form, [field]: e.target.value })} style={{ gridColumn: '1 / -1' }} />
-              : <input key={field} className="input" placeholder={field} value={form[field]} onChange={(e) => setForm({ ...form, [field]: e.target.value })} />
+              ? <textarea key={field} className="textarea" placeholder={placeholders[field]} value={form[field]} onChange={(e) => setForm({ ...form, [field]: e.target.value })} style={{ gridColumn: "1 / -1" }} />
+              : <input key={field} className="input" placeholder={placeholders[field]} value={form[field]} onChange={(e) => setForm({ ...form, [field]: e.target.value })} />
           ))}
-          <input className="input" type="file" onChange={(e) => setCover(e.target.files?.[0] || null)} style={{ gridColumn: '1 / -1' }} />
-          <button className="btn" type="submit" style={{ gridColumn: '1 / -1' }}>Сохранить</button>
+          <label className="file-field" style={{ gridColumn: "1 / -1" }}>
+            <span className="btn secondary">Выбрать обложку</span>
+            <span className="file-name">{cover ? cover.name : "Файл не выбран"}</span>
+            <input type="file" accept="image/png,image/jpeg,image/webp" onChange={(e) => setCover(e.target.files?.[0] || null)} />
+          </label>
+          <button className="btn" type="submit" style={{ gridColumn: "1 / -1" }}>Сохранить</button>
         </form>
         {statusText && <div className="footer-note">{statusText}</div>}
       </div>

@@ -17,6 +17,7 @@ export default function Layout() {
           <NavLink to="/">Главная</NavLink>
           <NavLink to="/books">Каталог</NavLink>
           <NavLink to="/map">Карта</NavLink>
+          <NavLink to="/faq">FAQ</NavLink>
           {authed && <NavLink to="/my-books">Мои книги</NavLink>}
           {authed && <NavLink to="/exchanges">Обмены</NavLink>}
           {authed && <NavLink to="/reviews">Отзывы</NavLink>}

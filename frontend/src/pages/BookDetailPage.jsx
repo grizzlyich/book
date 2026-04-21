@@ -3,6 +3,13 @@ import { useParams } from "react-router-dom";
 import { api } from "../api";
 import { isAuthenticated } from "../auth";
 
+const STATUS_LABELS = {
+  available: "Доступна",
+  reserved: "Забронирована",
+  exchanged: "Обмен завершён",
+  hidden: "Скрыта",
+};
+
 export default function BookDetailPage() {
   const { id } = useParams();
   const [book, setBook] = useState(null);
@@ -25,12 +32,12 @@ export default function BookDetailPage() {
   if (!book) return <div className="card">Загрузка...</div>;
 
   return (
-    <div className="grid" style={{ gridTemplateColumns: "minmax(280px, 360px) 1fr" }}>
+    <div className="grid details-grid">
       <div className="card">
         {book.cover ? <img className="book-cover" src={book.cover} alt={book.title} /> : <div className="book-cover" />}
       </div>
       <div className="card stack">
-        <span className="badge">{book.status}</span>
+        <span className="badge">{STATUS_LABELS[book.status] || book.status}</span>
         <h2>{book.title}</h2>
         <div className="muted">{book.author}</div>
         <div>{book.description || "Описание не указано"}</div>

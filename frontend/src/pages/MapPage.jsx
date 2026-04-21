@@ -14,7 +14,7 @@ export default function MapPage() {
     <div className="stack">
       <div className="card">
         <h2>Карта доступных книг</h2>
-        <div className="muted">На карте отображаются только книги со статусом available и указанными координатами.</div>
+        <div className="muted">На карте отображаются только книги со статусом «Доступна» и указанными координатами.</div>
         {error && <div className="footer-note">Ошибка: {error}</div>}
       </div>
       <MapView books={items} />

@@ -30,11 +30,11 @@ export default function ReviewsPage() {
   }
 
   return (
-    <div className="grid" style={{ gridTemplateColumns: "1fr 1fr" }}>
+    <div className="grid two-columns">
       <div className="card stack">
         <h2>Оставить отзыв</h2>
         <form className="stack" onSubmit={submit}>
-          <input className="input" placeholder="ID exchange" value={form.exchange_id} onChange={(e) => setForm({ ...form, exchange_id: e.target.value })} />
+          <input className="input" placeholder="ID обмена" value={form.exchange_id} onChange={(e) => setForm({ ...form, exchange_id: e.target.value })} />
           <select className="select" value={form.rating} onChange={(e) => setForm({ ...form, rating: e.target.value })}>
             {[1, 2, 3, 4, 5].map((value) => <option key={value} value={value}>{value}</option>)}
           </select>
@@ -44,7 +44,7 @@ export default function ReviewsPage() {
         {statusText && <div className="footer-note">{statusText}</div>}
       </div>
       <div className="stack">
-        <h2>Мои отзывы</h2>
+        <h2>Отзывы</h2>
         <div className="list">
           {items.map((review) => (
             <div className="list-item" key={review.id}>

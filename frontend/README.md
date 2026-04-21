@@ -2,13 +2,20 @@
 
 React + Vite веб-клиент для BookSwap.
 
-## Локальный запуск
+Что изменено:
+- интерфейс переведён на русский язык
+- добавлена страница FAQ
+- форма добавления книги получила русские подписи и более понятный выбор файла
+
+## Запуск локально
 
 ```bash
 npm install
-copy .env.example .env
 npm run dev
 ```
 
-## Production
-Укажи `VITE_API_BASE_URL=https://your-backend-domain/api` и задеплой на Vercel.
+## Переменные окружения
+
+```env
+VITE_API_BASE_URL=https://book-4awi.onrender.com/api
+```

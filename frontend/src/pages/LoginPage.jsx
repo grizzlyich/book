@@ -23,7 +23,7 @@ export default function LoginPage() {
     <div className="card auth-card">
       <h2>Вход</h2>
       <form className="stack" onSubmit={submit}>
-        <input className="input" placeholder="Username" value={form.username} onChange={(e) => setForm({ ...form, username: e.target.value })} />
+        <input className="input" placeholder="Имя пользователя" value={form.username} onChange={(e) => setForm({ ...form, username: e.target.value })} />
         <input className="input" type="password" placeholder="Пароль" value={form.password} onChange={(e) => setForm({ ...form, password: e.target.value })} />
         {error && <div className="muted">Ошибка: {error}</div>}
         <button className="btn" type="submit">Войти</button>

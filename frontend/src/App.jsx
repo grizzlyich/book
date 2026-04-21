@@ -11,6 +11,7 @@ import ExchangesPage from "./pages/ExchangesPage";
 import ReviewsPage from "./pages/ReviewsPage";
 import ProfilePage from "./pages/ProfilePage";
 import MapPage from "./pages/MapPage";
+import FAQPage from "./pages/FAQPage";
 
 export default function App() {
   return (
@@ -22,6 +23,7 @@ export default function App() {
         <Route path="books" element={<BooksPage />} />
         <Route path="books/:id" element={<BookDetailPage />} />
         <Route path="map" element={<MapPage />} />
+        <Route path="faq" element={<FAQPage />} />
         <Route path="my-books" element={<ProtectedRoute><MyBooksPage /></ProtectedRoute>} />
         <Route path="exchanges" element={<ProtectedRoute><ExchangesPage /></ProtectedRoute>} />
         <Route path="reviews" element={<ProtectedRoute><ReviewsPage /></ProtectedRoute>} />

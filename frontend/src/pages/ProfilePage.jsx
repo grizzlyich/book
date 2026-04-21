@@ -25,7 +25,7 @@ export default function ProfilePage() {
   return (
     <div className="card stack">
       <h2>Профиль</h2>
-      <div className="muted">API: {getApiBaseUrl()}</div>
+      <div className="muted">Подключённый API: {getApiBaseUrl()}</div>
       <form className="form-grid" onSubmit={submit}>
         <input className="input" value={profile.username} disabled />
         <input className="input" value={profile.email} disabled />
