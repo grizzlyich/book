@@ -1,15 +1,12 @@
-# Frontend (Vercel)
+# Frontend
 
-## Локальный запуск
-```bash
-npm install
-cp .env.example .env
-npm run dev
+React + Vite frontend для BookCross.
+
+## Env
+```env
+VITE_API_BASE_URL=https://book-4awi.onrender.com/api
 ```
 
-## Обязательные переменные окружения
-- `VITE_API_BASE_URL=https://<твой-backend>.onrender.com/api`
-- `VITE_YANDEX_MAPS_API_KEY=<ключ Яндекс Карт>`
-
 ## Карта
-Проект использует **Yandex Maps JS API v3**. Для работы карты нужен ключ c ограничением по HTTP Referer для твоего домена Vercel.
+Используется **Leaflet + OpenStreetMap**.
+Дополнительные API-ключи не нужны.
