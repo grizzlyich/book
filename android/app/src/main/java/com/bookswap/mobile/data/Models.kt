@@ -14,6 +14,19 @@ data class BookItem(
     val status: String
 )
 
+data class ExchangeItem(
+    val id: Int,
+    val status: String,
+    val message: String?,
+    val created_at: String?
+)
+
+data class ReviewItem(
+    val id: Int,
+    val rating: Int,
+    val comment: String?,
+    val created_at: String?
+)
 
 data class PaginatedResponse<T>(
     val count: Int,

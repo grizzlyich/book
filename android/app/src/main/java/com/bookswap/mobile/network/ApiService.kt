@@ -1,8 +1,10 @@
 package com.bookswap.mobile.network
 
 import com.bookswap.mobile.data.BookItem
+import com.bookswap.mobile.data.ExchangeItem
 import com.bookswap.mobile.data.LoginRequest
 import com.bookswap.mobile.data.PaginatedResponse
+import com.bookswap.mobile.data.ReviewItem
 import com.bookswap.mobile.data.TokenResponse
 import com.bookswap.mobile.data.UserProfile
 import retrofit2.http.Body
@@ -25,4 +27,13 @@ interface ApiService {
 
     @GET("books/")
     suspend fun books(): PaginatedResponse<BookItem>
+
+    @GET("books/my/")
+    suspend fun myBooks(): PaginatedResponse<BookItem>
+
+    @GET("exchanges/")
+    suspend fun exchanges(): PaginatedResponse<ExchangeItem>
+
+    @GET("reviews/")
+    suspend fun reviews(): PaginatedResponse<ReviewItem>
 }
