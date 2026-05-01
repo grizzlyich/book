@@ -11,7 +11,17 @@ object ApiClient {
         level = HttpLoggingInterceptor.Level.BODY
     }
 
+    private val authInterceptor = okhttp3.Interceptor { chain ->
+        val request = chain.request().newBuilder().apply {
+            AuthStore.accessToken?.let { token ->
+                addHeader("Authorization", "Bearer $token")
+            }
+        }.build()
+        chain.proceed(request)
+    }
+
     private val client = OkHttpClient.Builder()
+        .addInterceptor(authInterceptor)
         .addInterceptor(loggingInterceptor)
         .build()
 

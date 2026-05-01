@@ -19,3 +19,10 @@
 - Добавить экраны auth (`/api/auth/login`, `/api/auth/register`).
 - Добавить список книг (`/api/books/`) и детали книги.
 - Подключить JWT (access/refresh) и хранение токенов (DataStore).
+
+
+## Реализовано в MVP
+- Логин через `POST /api/auth/login/`.
+- Получение профиля `GET /api/auth/me/`.
+- Получение списка книг `GET /api/books/`.
+- Простейший in-memory logout (токены пока не персистятся).

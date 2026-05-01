@@ -3,21 +3,16 @@ package com.bookswap.mobile
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.runtime.setValue
-import androidx.compose.ui.Alignment
-import androidx.compose.ui.Modifier
+import com.bookswap.mobile.data.LoginRequest
 import com.bookswap.mobile.network.ApiClient
+import com.bookswap.mobile.network.AuthStore
+import com.bookswap.mobile.ui.AppState
+import com.bookswap.mobile.ui.screens.HomeScreen
+import com.bookswap.mobile.ui.screens.LoginScreen
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -26,39 +21,68 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            MaterialTheme {
-                HealthScreen()
-            }
+            MaterialTheme { BookSwapApp() }
         }
     }
 }
 
 @Composable
-private fun HealthScreen() {
+private fun BookSwapApp() {
     val scope = rememberCoroutineScope()
-    var state by remember { mutableStateOf("Нажми кнопку, чтобы проверить backend") }
+    val state = remember { AppState() }
 
-    Column(
-        modifier = Modifier.fillMaxSize(),
-        verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-        Text(text = state)
-        Button(onClick = {
+    fun refreshData() {
+        scope.launch {
+            state.statusText = "Загружаем профиль и книги..."
+            val result = runCatching {
+                withContext(Dispatchers.IO) {
+                    val me = ApiClient.api.me()
+                    val books = ApiClient.api.books()
+                    me to books
+                }
+            }
+            result.onSuccess {
+                state.profile = it.first
+                state.books = it.second
+                state.statusText = "Данные обновлены"
+            }.onFailure {
+                state.statusText = "Ошибка: ${it.message}"
+            }
+        }
+    }
+
+    if (!state.isLoggedIn) {
+        LoginScreen(onLogin = { username, password ->
             scope.launch {
-                state = "Проверяем API..."
+                state.statusText = "Выполняем вход..."
                 val result = runCatching {
                     withContext(Dispatchers.IO) {
-                        ApiClient.api.health().status
+                        ApiClient.api.login(LoginRequest(username, password))
                     }
                 }
-                state = result.fold(
-                    onSuccess = { "Backend status: $it" },
-                    onFailure = { "Ошибка: ${it.message}" }
-                )
+                result.onSuccess {
+                    AuthStore.accessToken = it.access
+                    AuthStore.refreshToken = it.refresh
+                    state.isLoggedIn = true
+                    refreshData()
+                }.onFailure {
+                    state.statusText = "Ошибка входа: ${it.message}"
+                }
             }
-        }) {
-            Text("Проверить API")
-        }
+        }, status = state.statusText)
+    } else {
+        HomeScreen(
+            profile = state.profile,
+            books = state.books,
+            status = state.statusText,
+            onRefresh = { refreshData() },
+            onLogout = {
+                AuthStore.clear()
+                state.isLoggedIn = false
+                state.profile = null
+                state.books = emptyList()
+                state.statusText = "Вы вышли"
+            }
+        )
     }
 }
