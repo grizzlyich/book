@@ -37,8 +37,8 @@ private fun BookSwapApp() {
             val result = runCatching {
                 withContext(Dispatchers.IO) {
                     val me = ApiClient.api.me()
-                    val books = ApiClient.api.books()
-                    me to books
+                    val booksPage = ApiClient.api.books()
+                    me to booksPage.results
                 }
             }
             result.onSuccess {

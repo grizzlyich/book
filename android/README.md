@@ -26,3 +26,5 @@
 - Получение профиля `GET /api/auth/me/`.
 - Получение списка книг `GET /api/books/`.
 - Простейший in-memory logout (токены пока не персистятся).
+
+- Пагинация DRF (`count/next/previous/results`) для `/api/books/` поддержана.

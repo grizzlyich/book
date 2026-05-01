@@ -2,6 +2,7 @@ package com.bookswap.mobile.network
 
 import com.bookswap.mobile.data.BookItem
 import com.bookswap.mobile.data.LoginRequest
+import com.bookswap.mobile.data.PaginatedResponse
 import com.bookswap.mobile.data.TokenResponse
 import com.bookswap.mobile.data.UserProfile
 import retrofit2.http.Body
@@ -23,5 +24,5 @@ interface ApiService {
     suspend fun me(): UserProfile
 
     @GET("books/")
-    suspend fun books(): List<BookItem>
+    suspend fun books(): PaginatedResponse<BookItem>
 }
